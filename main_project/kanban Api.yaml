@@ -1,0 +1,328 @@
+openapi: 3.0.0
+servers:
+  - url: http://127.0.0.1:5000
+info:
+  description: Kanban app API
+  version: 1.0.0
+  title: Kanban app
+  contact:
+    email: harshpalaps1@gmail.com
+tags:
+  - name: Member
+    description: Operations available to regular Members account
+  - name: Lists
+    description: Operations available to regular lists of member
+  - name: Cards
+    description: Operations available to regular cards of member
+paths:
+  /api/member/all:
+    get:
+      tags:
+        - Member
+      description: |
+        just Press Try it out then Press Execute and will get info of all member
+      responses:
+        '200':
+          description: info of members is found
+        '404':
+          description: Member not found
+  /api/member/{Name}:
+    parameters:
+      - in: path
+        name: Name
+        description: '= pass member name'
+        required: true
+        schema:
+          type: string
+          example: harsh
+    get:
+      tags:
+        - Member
+      description: |
+        By passing the name of member, you can get information of that memeber
+      responses:
+        '200':
+          description: info of member is found
+        '400':
+          description: bad input parameter
+        '404':
+          description: member not found
+    delete:
+      tags:
+        - Member
+      description: |
+        By passing  the name of member , you can delete account of that memeber
+      responses:
+        '200':
+          description: member account is successfully deleted
+        '400':
+          description: member not found
+        '409':
+          description: member have   lists  first delete it
+    put:
+      tags:
+        - Member
+      description: >
+        By passing in the appropriate options, you change password of member
+        account
+      responses:
+        '200':
+          description: password is changed
+        '400':
+          description: bad input parameter
+        '404':
+          description: member not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                  example: '12345'
+        description: Enter new password you want to set
+        required: true
+  /api/member:
+    post:
+      tags:
+        - Member
+      description: |
+        By passing in the appropriate options, for creating new member account
+      responses:
+        '201':
+          description: new member account is created
+        '400':
+          description: bad input parameter or repeated request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: mayank
+                email:
+                  type: string
+                  example: mayankpal@gmail.com
+                password:
+                  type: string
+                  example: '12345'
+        description: for creating account
+        required: true
+  /api/list/all:
+    get:
+      tags:
+        - Lists
+      description: |
+        just Press Try it out then Press Execute and will get info of all lists
+      responses:
+        '200':
+          description: info of lits is found
+        '404':
+          description: no list exist not found
+  /api/member/{Name}/list:
+    parameters:
+      - in: path
+        name: Name
+        description: '= pass member name'
+        required: true
+        schema:
+          type: string
+          example: harsh
+    get:
+      tags:
+        - Lists
+      description: >
+        just Press Try it out then by giving name of member and will get info of
+        lists belong to given mamber 
+      responses:
+        '200':
+          description: info of lists of members is found
+        '400':
+          description: member not found
+        '404':
+          description: lists not found
+  /api/list:
+    post:
+      tags:
+        - Lists
+      description: |
+        By passing in the appropriate options, you can creating new lists
+      responses:
+        '201':
+          description: new list is created in given member
+        '400':
+          description: bad input parameter or repeated request
+        '404':
+          description: member of given name is not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                list_name:
+                  type: string
+                  example: homeworks
+                member_name:
+                  type: string
+                  example: harsh
+        description: for creating account
+        required: true
+  /api/list/{list_name_input}:
+    parameters:
+      - in: path
+        name: list_name_input
+        description: '= List name'
+        required: true
+        schema:
+          type: string
+          example: homeworks
+    delete:
+      tags:
+        - Lists
+      description: |
+        By passing  the name of member , you can delete account of that lists
+      responses:
+        '200':
+          description: list is successfully deleted
+        '400':
+          description: list not found
+        '409':
+          description: list have  cards  first delete it
+    put:
+      tags:
+        - Lists
+      description: |
+        By passing in the appropriate options, you can change list name
+      responses:
+        '200':
+          description: list name is changed
+        '400':
+          description: bad input parameter
+        '404':
+          description: list not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                new_list_name:
+                  type: string
+                  example: daily school work
+        description: Enter new name of list you want to set
+        required: true
+  /api/card/all:
+    get:
+      tags:
+        - Cards
+      description: |
+        just Press Try it out then Press Execute and will get info of all cards
+      responses:
+        '200':
+          description: info of cards is found
+        '404':
+          description: cards not found
+  /api/card/{Task}:
+    parameters:
+      - in: path
+        name: Task
+        description: '= pass Task name'
+        required: true
+        schema:
+          type: string
+          example: Maths home work
+    get:
+      tags:
+        - Cards
+      description: |
+        By passing the name of member, you can get information of that card
+      responses:
+        '200':
+          description: info of card is found
+        '400':
+          description: bad input parameter
+        '404':
+          description: card not found
+    patch:
+      tags:
+        - Cards
+      description: |
+        By passing in the appropriate options, for updating  card
+      responses:
+        '201':
+          description: Card is Updated
+        '400':
+          description: card already updated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  example: '1'
+        description: for updating card
+        required: true
+    put:
+      tags:
+        - Cards
+      description: |
+        By passing in the appropriate options, you can modified card
+      responses:
+        '200':
+          description: card  is modified
+        '400':
+          description: bad input parameter
+        '404':
+          description: card not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                task:
+                  type: string
+                  example: sleep
+                content:
+                  type: string
+                  example: nap of 1 hour
+                due_date:
+                  type: string
+                  example: '2022-09-13 13:47:00'
+  /api/card:
+    post:
+      tags:
+        - Cards
+      description: |
+        By passing in the appropriate options, for Enter new card
+      responses:
+        '201':
+          description: new member account is created
+        '400':
+          description: bad input parameter or repeated request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                task:
+                  type: string
+                  example: Maths home work
+                content:
+                  type: string
+                  example: chapter 1 and 2
+                due_date:
+                  type: string
+                  example: '2022-09-13 13:47:00'
+                list_name:
+                  type: string
+                  example: home
+        description: for Entering card in list
+        required: true

@@ -1,0 +1,243 @@
+{% extends "layout.html" %}
+{% block body %}
+        <!-- Page Header-->
+        <header class="masthead">
+          <div class="container position-relative px-4 px-lg-5">
+              <div class="row gx-4 gx-lg-5 justify-content-center">
+                  <div class="col-md-10 col-lg-8 col-xl-7">
+                      <div class="post-heading">
+                          <h1>List Editing</h1>
+                          <h2 class="subheading"></h2>
+                          <span class="meta">
+                         
+                          </span>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </header>
+  
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="site-heading" >
+                            <h1>LIST :- {{List.list_name}}</h1>
+                            <span class="lead text-muted">This top portion is to modify </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <section class="jumbotron text-center">
+              <div class="container">
+                <h1 class="jumbotron-heading">Change List Name</h1>
+
+                <form  action="update/{{id}}"method="post">
+
+                    <label for="Change_title">Enter new name</label>
+                    <textarea name="change_title" id ="Change_title" class="form-control" > </textarea>
+
+
+                    <p>
+                      <button type="submit" class="btn btn-primary my-2" >Update</button>
+                    </p>
+
+                    <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
+                </form>
+            
+               </div>
+             </section>
+
+
+
+
+
+        </header>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              
+
+                
+
+
+
+
+
+        <main role="main">
+
+            <div>
+
+              <div class="row">
+                    <div class="col-md-6" >
+                    <section class="jumbotron text-center">
+                      <div class="container">
+                        <h1 class="jumbotron-heading">Add task</h1>
+
+                        <form  action="/list/{{id}}"method="post">
+                            <label for="task">Task Title</label>
+                            <textarea name="task" id ="task" class="form-control" > </textarea>
+
+                            <label for="content">task content</label>
+                            <textarea name="content" id ="content" class="form-control" > </textarea>
+
+
+                            <label for="due_date">due date</label>
+                            <input type="datetime-local" id="start_date" name="due_date">
+
+                            <p>
+                              <button type="submit" class="btn btn-primary my-2\">add work</button>
+                            </p>
+                            <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
+                        </form>
+                    
+                        </div>
+                      </section>
+                    </div> 
+
+
+
+
+                      
+
+                  <div class="col-md-6" >
+                    <section class="jumbotron text-center">
+                      <div class="container">
+                        <h1 class="jumbotron-heading">move card</h1>
+                        <span class="subheading">add detail for moving card to other list</span>
+
+                        <form  action="/move/{{id}}"method="post">
+                          <label for="card_name">card name </label>
+                          <textarea name="card_name" id ="card_name" class="form-control" > </textarea>
+
+                          <label for="list_name">list name</label>
+                          <textarea name="list_name" id ="list_name" class="form-control" > </textarea>
+
+
+
+                          <p>
+                            <button type="submit" class="btn btn-primary my-2\">move</button>
+                          </p>
+                          <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
+                        </form>
+                  
+                      </div>
+                    </section>
+                  </div> 
+              </div>
+
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+                        <div class="album py-5 bg-light">
+                          <div class="container">
+                  
+                            <div class="row">
+                              {% for Card in Cards %}
+
+                              <div class="col-md-4" >
+                                <div >
+
+                                  <div class="card mb-4 box-shadow">
+              
+                                    <div class="card-body" >
+
+                                        <p class="card-text"> Task:- {{Card["task"]}} <br> Deadline:-{{Card["due_date"]}}</p>
+                    
+                                        <p class="card-text">************[Content]************</p>
+                                          <p class="card-text">{{Card["content"]}}</p>
+                                        <p class="card-text">*********************************</p>
+                                      
+
+                                              
+                                                  {% if Card.have_date == 1 %}
+                                                      {% if Card.status == 0 %}
+                                                     
+
+
+
+                                                        <div class="d-flex justify-content-between align-items-center">
+                                                          <div class="btn-group">
+                                                              <a type="button" href="/delete/card/{{Card.id}}" class="btn btn-sm btn-outline-secondary" >Delete </a>
+                                                              <a type="button" href="/update/card/{{Card.id}}"  class="btn btn-sm btn-outline-secondary">DONE</a>
+                                                          </div>
+                                                          <small class="text-muted">Status( TASK PENDING )</small>
+
+
+                                                        
+                                                      {% else %}
+                                                     
+
+                                                      
+                                                        <div class="d-flex justify-content-between align-items-center">
+                                                          <div class="btn-group">
+                                                              <a type="button" href="/delete/card/{{Card.id}}" class="btn btn-sm btn-outline-secondary" >Delete </a>
+                                                            
+                                                          </div>
+                                                          <small class="text-muted">Status( TASK DONE )</small>
+                                                      {% endif %}
+                                                  {% else %}
+                                                  
+                                                     <div class="d-flex justify-content-between align-items-center">
+                                                          <div class="btn-group">
+                                                              <a type="button" href="/delete/card/{{Card.id}}" class="btn btn-sm btn-outline-secondary" >Delete </a>
+                                                            
+                                                          </div>
+                                                          <small class="text-muted">Status( DUE DATE IS CROOSED )</small>
+                                                  {% endif %}
+
+                                          
+                                      </div>
+                                    </div>
+                                  </div>
+                                
+                                </div> 
+                              </div>
+                              {% endfor %}
+
+
+
+
+
+
+              
+            </div>
+      
+        </main>
+{% endblock %}

@@ -1,0 +1,315 @@
+{% extends "layout.html" %}
+{% block body %}
+        <!-- Page Header-->
+        <header class="masthead">
+          <div class="container position-relative px-4 px-lg-5">
+              <div class="row gx-4 gx-lg-5 justify-content-center">
+                  <div class="col-md-10 col-lg-8 col-xl-7">
+                      <div class="post-heading">
+                          <h1> DashBoard</h1>
+                          <h2 class="subheading"></h2>
+                          <span class="meta">
+                         
+                          </span>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </header>
+      
+          <div class="overlay"></div>
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-4 col-md-6 mx-auto">
+                <div class="page-heading">
+                  <h1>LIST :- {{List.list_name}}</h1>
+
+                  <span class="subheading">This is what I do.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <main role="main">
+
+            <div>
+
+              <div class="row">
+
+    
+
+                  <div class="col-md-7" >
+                    <section class="jumbotron text-center">
+                      <div class="container" >
+                        <head>
+                          <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                          <script type="text/javascript">
+                            google.charts.load('current', {'packages':['corechart']});
+                            google.charts.setOnLoadCallback(drawChart);
+                      
+                            function drawChart() {
+                      
+                              var data = google.visualization.arrayToDataTable([
+                                  {% for key, value in data.items() %}
+                                      {% if value is string %}
+                                          ['{{ key }}', '{{ value }}'],
+                                      {% else %}
+                                          ['{{ key }}', {{ value }}],
+                                      {% endif %}
+                                  {% endfor %}
+                              ])
+                      
+                              var options = {
+                                title: 'My Daily Activities',
+                                is3D: true,
+                                //pieHole: 0.5
+                                pieStartAngle: 100
+                                /*slices: {  
+                                  2: {offset: 0.2},
+                                  3: {offset: 0.3}
+                                }*/
+                                /*slices: {
+                                  1: { color: 'transparent' }
+                                }*/
+                              };
+                      
+                              var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+                              chart.draw(data, options);
+                            }
+                          </script>
+                      </head>
+                      <body>
+                          <div style="margin: 10px 0 0 10px;width: 1000px">
+                              <h3>Ration of time taken by each task</h3>
+                              <div id="piechart_3d" style="width: 800px; height: 500px;"></div>
+                          </div>
+                      </body>
+                    
+                        </div>
+                      </section>
+                  </div> 
+
+             
+
+       
+
+
+                  <div class="col-md-5">
+                    
+                    <h1>Total number of tasks = {{Total_task}}</h1>
+
+                     <h2>Done Tasks = {{Done_task}}</h2>
+                
+                      {% for card  in Cards %}
+                      {% if card.status == 1 %}
+                      <h6><li>{{card.task}}</li></h6>
+                      {% endif %}
+                      {% endfor %}
+                    
+
+                    
+                     <h2>Pending tasks = {{Pending_task}}</h2>
+                     {% for card  in Cards %}
+                     {% if card.have_date == 1 %}
+                       {% if card.status == 1 %}
+
+                       {% else %}
+                          <h6><li>{{card.task}}</li></h6>
+                       {% endif %}
+                     {% endif %}
+                     {% endfor %}
+                     
+
+                     <h2>Tasks due date is cross = {{Undone_task}}</h2>
+                     {% for card  in Cards %}
+                     {% if card.have_date == 0 %}
+                     <h6><li>{{card.task}}</li></h6>
+                     {% endif %}
+                     {% endfor %}
+                   
+
+                    
+                    </div> 
+                                    <div>
+
+                                    <h1>Time left for pending task / Time taken for done task</h1>
+                                                                  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+                                                                  <script type="text/javascript">
+                                                                    google.charts.load("current", {packages:["timeline"]});
+                                                                    google.charts.setOnLoadCallback(drawChart);
+                                                                    function drawChart() {
+                                                                      var container = document.getElementById('example4.2');
+                                                                      var chart = new google.visualization.Timeline(container);
+                                                                      var dataTable = new google.visualization.DataTable();
+
+                                                                      dataTable.addColumn({ type: 'string', id: 'Role' });
+                                                                      dataTable.addColumn({ type: 'string', id: 'Name' });
+                                                                      dataTable.addColumn({ type: 'date', id: 'Start' });
+                                                                      dataTable.addColumn({ type: 'date', id: 'End' });
+                                                                      dataTable.addRows(
+                                                                        [
+                                                                          {% for card in data2  %}
+                                                                            {% if  card.have_date==1   %}
+                                                                                  {% if  card.status==1   %}
+                                                                                    ["Done","{{card.task}}" , new Date({{card.form_date[:4]}}, {{card.form_date[5:7]}},{{card.form_date[8:10]}}) ,new Date({{card.done_date[:4]}}, {{card.done_date[5:7]}} , {{card.done_date[8:10]}}) ],
+                                                                                  {% else %}
+                                                                                  ["Pending","{{card.task}}" , new Date({{card.form_date[:4]}}, {{card.form_date[5:7]}},{{card.form_date[8:10]}}) ,new Date({{card.due_date[:4]}}, {{card.due_date[5:7]}} , {{card.due_date[8:10]}}) ],
+                                                                                  {% endif %}
+                                                                            {% endif %}
+
+                                                                          {% endfor %}
+                                                                                                                      
+
+                                                                        ]
+                                                                        );
+
+                                                                      var options = {
+                                                                        timeline: { groupByRowLabel: false }
+                                                                      };
+
+                                                                      chart.draw(dataTable, options);
+                                                                    }
+                                                                  </script>
+
+                                                                  <div id="example4.2" style="height: 200px;"></div>
+                                    </div>
+
+                                                                            
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+                        <div class="album py-5 bg-light">
+                          <div class="container">
+                  
+    
+
+   
+                            <div class="album py-5 bg-light">
+                              <div class="container">
+                      
+                                <div class="row">
+                                  {% for Card in Cards %}
+    
+                                  <div class="col-md-4" >
+                                    <div >
+    
+                                      <div class="card mb-4 box-shadow">
+                                        
+    
+                                        <div class="card-body" >
+                                          <p class="card-text"> Task:- {{Card["task"]}} <br> Deadline:-{{Card["due_date"]}}</p>
+                      
+                                          <p class="card-text">************[Content]************</p>
+                                            <p class="card-text">{{Card["content"]}}</p>
+                                          <p class="card-text">*********************************</p>
+                                        
+                                       
+                                                  
+                                                      {% if Card.have_date == 1 %}
+                                                          {% if Card.status == 0 %}
+                                                          <small class="text-muted">Status:- TASK PENDING</small>
+    
+    
+    
+                                                            <div class="d-flex justify-content-between align-items-center">
+                                                      
+    
+    
+    
+                                                            
+                                                          {% else %}
+                                                          <small class="text-muted">Status:- TASK DONE )</small>
+    
+                                                          
+                                                            <div class="d-flex justify-content-between align-items-center">
+                                                              <div class="btn-group">
+                                                              
+                                                              </div>
+                                                          {% endif %}
+                                                      {% else %}
+                                                      <small class="text-muted">Status:- DUE DATE IS CROOSED </small>
+                                                         <div class="d-flex justify-content-between align-items-center">
+                                                      
+                                                      {% endif %}
+                                        
+    
+    
+                                 
+                                          </div>
+                                        </div>
+                                      </div>
+                                    
+                                    </div> 
+                                  </div>
+                                  {% endfor %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+          </main>
+{% endblock %}

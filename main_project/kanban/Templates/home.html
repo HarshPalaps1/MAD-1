@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+{% block body %}
+        <!-- Page Header-->
+        <header class="masthead">
+          <div class="container position-relative px-4 px-lg-5">
+              <div class="row gx-4 gx-lg-5 justify-content-center">
+                  <div class="col-md-10 col-lg-8 col-xl-7">
+                      <div class="post-heading">
+                          <h1>Kanban board</h1>
+                          <h2 class="subheading">You can add you day to day work you want to done</h2>
+                          <span class="meta">
+                         
+                          </span>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </header>
+
+
+
+
+
+        <main role="main">
+
+            <section class="jumbotron text-center">
+              <div class="container">
+                <h1 class="jumbotron-heading">ADD LIST</h1>
+
+                <form  action="/"method="post">
+                    <textarea name="sticker" id ="sticker" class="form-control"> </textarea>
+                    
+
+                  <p>
+                    <button type="submit" class="btn btn-primary my-2\">add work</button>
+                  </p>
+                    <p class="lead text-muted">“One of the secrets of getting more done is to make a to-do List every day, keep it visible, and use it as a guide to action as you go through the day”</p>
+
+
+                </form>
+                <h1>Lists</h1>
+                <span class="subheading">You see lists and its task here </span>
+              </div>
+            </section>
+      
+
+
+
+            <div class="album py-5 bg-light">
+              <div class="container">
+      
+                <div class="row">
+                  {% for list in List %}
+                  <div class="col-md-4">
+                    <div class="card mb-4 box-shadow">
+                      <p class="card-text">*****************[ ID  {{list.id}} ]****************<br>List name :- {{list["list_name"]}}</p>
+                      <p class="card-text"></p>
+                      <div class="card-body">
+                     
+                        <div class="d-flex justify-content-between align-items-center">
+                          <div class="btn-group">
+                            
+                            <a href="/list/view/{{list.id}}" class="btn btn-sm btn-outline-secondary" >View </a>
+                            <a href="/delete/list/{{list.id}}" class="btn btn-sm btn-outline-secondary" >Delete </a>
+                            <div>
+                            <a href="/list/{{list.id}}" class="btn btn-sm btn-outline-secondary" > Edit list and card </a>
+                            </div>
+                          </div>
+                          <small class="text-muted">9 mins</small>
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </div>
+                  {% endfor %}
+
+  
+          </main>
+{% endblock %}
