@@ -51,7 +51,13 @@ D) have_date (boolean,default=True) :- Contain boolean value to get info related
 E) status (boolean,default=False) :- Contain boolean value to get info related to task Done or not 
 F) form_date (Integer, nullable) :- Contain Date and at which card is formed 
 G) due_date (Integer,not nullable) :- Contain Date and at which card crossed it’s due date 
-H) done_date (Integer,not nullable) :- Contain Date and at which card task is done API Design There is three section of APIs links :- 
-                                                                          1) For login in Member (This section is to get information,create account ,delete account and change password of member who’s signup or want to signup in app) 
-                                                                          2) For lists on kanban board (This section is to get information,create ,delete and modify lists )
-                                                                          3) For cards in list (This section is to get information,create ,delete and modify cards )
+H) done_date (Integer,not nullable) :- Contain Date and at which card task is done 
+
+
+API Design There is three section of APIs links :- 
+
+1) For login in Member (This section is to get information,create account ,delete account and change password of member who’s signup or want to signup in app) 
+
+2) For lists on kanban board (This section is to get information,create ,delete and modify lists )
+
+3) For cards in list (This section is to get information,create ,delete and modify cards )
